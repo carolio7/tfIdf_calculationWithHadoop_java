@@ -15,3 +15,11 @@ Hadoop version: 2.10.0
 
 Start dfs: $HADOOP_HOME/sbin/start-dfs.sh
 Start yarn: $HADOOP_HOME/sbin/start-yarn.sh
+
+
+
+## 3. Programm:
+
+1- Job_1 calculate the frequency of term in each document, it returns: (word@FileName/NumberTotalOfFile, wordcount).
+2- Job_2 count number total of word in each document : (Filename, NumberTotalOfWordInThisFile)
+3 - Job_3 calculate Term_Frequency * IDF
