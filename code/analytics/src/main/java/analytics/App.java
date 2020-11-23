@@ -87,9 +87,8 @@ public class App
         
         
         // job2: compte le nombre de mot dans chaque documents
-        //Configuration conf2 = getConf();
         Job job2 = new Job(conf, "wordCount"); 
-
+        
         // On precise les classes MyProgram, Map et Reduce
         job2.setJarByClass(App.class);
         job2.setMapperClass(Job2_Mapper_WordCountForDocs.class);
@@ -101,17 +100,39 @@ public class App
 
         Path outputFilePath2 = new Path(args[1] + "/job2");
 
-        // On accepte une entree recursive
-        //FileInputFormat.setInputDirRecursive(job2, true);
-
         FileInputFormat.addInputPath(job2, outputFilePath1);
         FileOutputFormat.setOutputPath(job2, outputFilePath2);
 
         if (fs.exists(outputFilePath2)) {
             fs.delete(outputFilePath2, true);
-        }
-        
+        }   
         job2.waitForCompletion(true);
+        
+        
+        
+        
+        // Job3: calcul du TF-IDF
+        Job job3 = new Job(conf, "calcul tfidf"); 
+
+        // On precise les classes MyProgram, Map et Reduce
+        job3.setJarByClass(App.class);
+        job3.setMapperClass(Job3_Mapper_TF_IDF.class);
+        job3.setReducerClass(Job3_Reducer_TF_IDF.class);
+
+        // Definition des types clé/valeur de notre problème
+        job3.setOutputKeyClass(Text.class);
+        job3.setOutputValueClass(Text.class);
+
+        Path outputFilePath3 = new Path(args[1] + "/job3");
+
+        FileInputFormat.addInputPath(job3, outputFilePath2);
+        FileOutputFormat.setOutputPath(job3, outputFilePath3);
+
+
+        if (fs.exists(outputFilePath3)) {
+            fs.delete(outputFilePath3, true);
+        }
+        System.exit(job3.waitForCompletion(true) ? 0 : 1);
 		
     }
 }

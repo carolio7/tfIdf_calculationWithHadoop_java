@@ -33,7 +33,7 @@ Start yarn: $HADOOP_HOME/sbin/start-yarn.sh
                 tf_word = termFrequency "/" sumOfWordsInDocument
                 Result = (word@FileName/nbFile , termFrequency "/" sumOfWordsInDocument)
     
-3 - Job_3 calculate Term_Frequency * IDF
+3 - Job_3 calculate Term_Frequency * IDF : wordFileName [TF*idf]
 
 
 ## 4.Command for launching the application: 
