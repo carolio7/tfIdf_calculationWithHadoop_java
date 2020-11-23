@@ -20,6 +20,22 @@ Start yarn: $HADOOP_HOME/sbin/start-yarn.sh
 
 ## 3. Programm:
 
-1- Job_1 calculate the frequency of term in each document, it returns: (word@FileName/NumberTotalOfFile, wordcount).
-2- Job_2 count number total of word in each document : (Filename, NumberTotalOfWordInThisFile)
+1- Job_1 calculate the frequency of term in each document, it returns: (word@FileName/nbFile, termFrequency).
+2- Job_2 will add number total of word in each document : (word@FileName/nbFile , termFrequency "/" sumOfWordsInDocument)
+    Map Job 2: 
+                output = (FileName/nbFile , word "=" termFrequency)
+
+    Reduce Job 2:
+                input = (FileName/nbFile , word "=" termFrequency)
+                tempCounter = <word , termFrequency>
+                sumOfWordsInDocument = nbWordsInDocument
+                wordAtDoc = word@FileName/nbFile
+                tf_word = termFrequency "/" sumOfWordsInDocument
+                Result = (word@FileName/nbFile , termFrequency "/" sumOfWordsInDocument)
+    
 3 - Job_3 calculate Term_Frequency * IDF
+
+
+## 4.Command for launching the application: 
+hadoop jar tf_idfCalculation.jar analytics.App /input/texte /output
+

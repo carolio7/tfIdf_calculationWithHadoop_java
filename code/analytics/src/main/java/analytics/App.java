@@ -84,6 +84,34 @@ public class App
         job1.waitForCompletion(true);
         
 	    
+        
+        
+        // job2: compte le nombre de mot dans chaque documents
+        //Configuration conf2 = getConf();
+        Job job2 = new Job(conf, "wordCount"); 
+
+        // On precise les classes MyProgram, Map et Reduce
+        job2.setJarByClass(App.class);
+        job2.setMapperClass(Job2_Mapper_WordCountForDocs.class);
+        job2.setReducerClass(Job2_Reducer_WordCountForDocs.class);
+
+        // Definition des types clé/valeur de notre problème
+        job2.setOutputKeyClass(Text.class);
+        job2.setOutputValueClass(Text.class);
+
+        Path outputFilePath2 = new Path(args[1] + "/job2");
+
+        // On accepte une entree recursive
+        //FileInputFormat.setInputDirRecursive(job2, true);
+
+        FileInputFormat.addInputPath(job2, outputFilePath1);
+        FileOutputFormat.setOutputPath(job2, outputFilePath2);
+
+        if (fs.exists(outputFilePath2)) {
+            fs.delete(outputFilePath2, true);
+        }
+        
+        job2.waitForCompletion(true);
 		
     }
 }
